@@ -1,0 +1,72 @@
+{% extends main.html %}
+{% block title %}VIP会员服务功能与优势{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>{{ siteName }}VIP会员服务功能与优势</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>功能</th>
+                            <th>VIP会员</th>
+                            <th>普通会员</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        <tr>
+                            <th>价格</th>
+                            <td>15元/月</td>
+                            <td>免费</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th>上传图片数量</th>
+                            <td>无限制</td>
+                            <td>无限制</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th>给图片添加关键词</th>
+                            <td>可以给任意图片添加</td>
+                            <td>可以给任意图片添加</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th>给图片添加链接</th>
+                            <td>可以给任意图片添加</td>
+                            <td>不可以添加</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th>创建图册</th>
+                            <td>可以创建40个画册</td>
+                            <td>不可以创建</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <th>修改图片详情</th>
+                            <td>可以修改任意图片</td>
+                            <td>可以修改自己上传的图片</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-danger">在QQ空间或微信朋友圈分享喷沫屋给好友即可免费获得一季度VIP服务。每成功邀请一位好友注册喷沫屋，即可免费获得一个月VIP服务（15元/每月），邀请两位免费获得两个月VIP，依此类推。{% if user %}我的推广链接：<a href="http://www.permov.com/?ref={{ user }}">http://www.permov.com/?ref={{ user }}</a>{% else %}<a href="javascript:;" data-toggle="modal" data-target="#loginModal">登录获取推广链接</a>{% end %}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        {% module GulipaJC() %}
+        {% module SideBarAd() %}
+    </div>
+</div>
+{% end %}

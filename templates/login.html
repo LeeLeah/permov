@@ -1,0 +1,41 @@
+{% extends main.html %}
+{% block title %}用户登录{% end %}
+{% block container %}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">登录</h3>
+                </div>
+                <div class="modal-body">
+                	{% if action %}
+	                	<div class="alert alert-danger text-center">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>{{ action }}</strong> 
+						</div>
+					{% end %}
+                    <form action="/login/" method="post" role="search">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">账号</div>
+                                <input type="text" class="form-control" id="user" name="user" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">密码</div>
+                                <input type="password" class="form-control" id="password" name="password" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="登录">登录</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <p><a href="#" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#regModal">注册账号</a></p>
+                    <p class="text-center"><a href="javascript:void(0)" id="QQLogin"><img src="/static/images/QQLogin.png"></a></p>
+                </div>
+            </div>
+        </div>
+{% end %}

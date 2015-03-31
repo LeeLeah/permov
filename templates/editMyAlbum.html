@@ -1,0 +1,93 @@
+{% extends main.html %}
+{% block title %}修改画册{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading" id="PanelHeader"><h3>修改画册</h3></div>
+            <div class="panel-body">
+                <form action="/myAlbum/edit/{{ cate['url'] }}/" method="post">
+                    {% raw xsrf_form_html() %}
+                    <div class="form-group form-group-lg">
+                        <div class="input-group">
+                            <div class="input-group-addon">画册名字</div>
+                            <input type="text" class="form-control" name="name" required="required" value="{{ cate['name'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <div class="input-group">
+                            <div class="input-group-addon">画册标题</div>
+                            <input type="text" class="form-control" name="title" required="required" value="{{ cate['title'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <div class="input-group">
+                            <div class="input-group-addon">画册关键词</div>
+                            <input type="text" class="form-control" name="keywords" required="required" value="{{ '+'.join(cate['keywords']) }}">
+                        </div>
+                        <span class="help-block"><em class="text-danger">关键词之间请用“+”号分割，每个相册最多设置8个关键词。</em></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="3" class="form-control" name="description" placeholder="画册描述。">{{ cate["description"] }}</textarea>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit" value="提交修改">提交修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3>个人中心</h3></div>
+            <div class="list-group">
+                <a class="list-group-item" href="/user/{{ user }}/"><h4>我的主页</h4></a>
+        <a class="list-group-item" href="/myAlbum/"><h4>我的画册</h4></a>
+                <a class="list-group-item" href="javascript:;" data-toggle="modal" data-target="#addCateModal"><h4>创建画册</h4></a>
+                <a class="list-group-item" href="javascript:void(0)"><h4><span class="label label-warning">VIP</span></h4>到期时间：{{ userInfo["vip"].date() }}</a>
+            </div>
+        </div>
+        {% module GulipaJC() %}
+        {% module SideBarAd() %}
+    </div>
+</div>
+<div class="modal fade" id="addCateModal" tabindex="-4" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">
+                        创建画册
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/addCate/" method="post" id="addLink">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">画册名字</div>
+                                <input type="text" class="form-control" name="name" required="required" placeholder="请尽量保持在10个字以内。">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">画册标题</div>
+                                <input type="text" class="form-control" name="title" required="required" placeholder="浏览器标题(title标签)，利于SEO排名。">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea rows="3" class="form-control" name="description" placeholder="画册描述。"></textarea>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <button class="btn btn-danger btn-block btn-lg" type="submit" value="确认提交">确认提交</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-block btn-lg" data-dismiss="modal" aria-label="Close">取消</a>
+                </div>
+            </div>
+        </div>
+</div>
+{% end %}

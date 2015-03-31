@@ -1,0 +1,75 @@
+{% extends main.html %}
+{% block title %}热门画册{% end %}
+{% block description %}注册喷沫屋会员即可上传分享任何你喜欢的图片，并与众多喷沫屋会员交流图片观点。喷沫屋会员可以在图片的任意位置添加关键词，VIP会员还可以在图片的任意位置添加购物按钮。{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+	<div class="col-md-8">
+    <div class="row album-padding" id="waterfall">
+            {% for cate in cates %}
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <div class="panel panel-default">
+                        <div class="panel-body img-padding">
+                            <div class="thumbnail thumbnail-pading">
+                                <a href="/{{ cate['url'] }}/" target="_blank"><img src="{{ staticURL }}/{{ cate['img'] }}-{% if device %}mobile.jpg{% else %}220.jpg{% end %}" alt="{{ cate['title'] }}"></a>
+                            </div>
+                            <div class="panel-footer">
+                            <h4>画册：{{ cate["name"] }}</h4>
+                            <p class="word-break">{{ cate["description"][:50] }}……</p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% end %}
+    </div>
+    {% if pageNum > 1 %}
+      <div class="well text-center">
+        <nav>
+          <ul class="pagination">
+              <li><a href="/album/?page={% if page > 1 %}{{ page-1 }}{% else %}1{% end %}"><span aria-hidden="true">上一页</span><span class="sr-only">上一页</span></a></li>
+              <li><a href="/album/?page={% if page < pageNum %}{{ page + 1}}{% else %}{{ pageNum }}{% end %}"><span aria-hidden="true">下一页</span><span class="sr-only">下一页</span></a></li>
+          </ul>
+        </nav>
+        <p>当前第 <span class="text-danger">{{ page }}</span> 页，共 <span class="text-info">{{ pageNum }}</span> 页</p>
+      </div>
+    {% end %}
+	</div>
+	<div class="col-md-4">
+		{% module GulipaJC() %}
+		{% module SideBarAd() %}
+	</div>
+</div>
+{% end %}
+{% block js %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(window).on("load",function(){
+          imgLocation();
+        });
+      });
+      function imgLocation(){
+        var box = $(".col-sm-6");
+        var boxWidth = box.eq(0).outerWidth();
+        var windowWidth = $("#waterfall").outerWidth();
+        num = Math.floor(windowWidth/boxWidth);
+        var boxArr = [];
+        box.each(function(index,value){
+          var boxHeight = box.eq(index).height();
+          if (index<num){
+            boxArr[index] = boxHeight;
+          }else{
+            var minBoxHeight = Math.min.apply(null,boxArr);
+            var minBoxIndex = $.inArray(minBoxHeight,boxArr);
+            $(value).css({
+              "position":"absolute",
+              "top":minBoxHeight + "px",
+              "width":boxWidth,
+              "left":box.eq(minBoxIndex).position().left +"px",
+            });
+            boxArr[minBoxIndex] += box.eq(index).outerHeight();
+          }
+        });
+        $("#waterfall").css({"height":Math.max.apply(null,boxArr)})
+      }
+    </script>
+{% end %}

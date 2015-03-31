@@ -1,0 +1,29 @@
+            <div class="row">
+                <div class="col-md-8 col-xs-8 col-sm-8" id="searchBox">
+                    <form action="/search/" id="searchForm" method="post" accept-charset="UTF-8" Content-Type="UTF-8">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control" id="search" name="keyword" placeholder="关键词" required="required">
+                                <span class="input-group-btn" id="searchButton">
+                                    <button class="btn btn-info" type="submit" value="搜索"><span class="glyphicon glyphicon-search"></span> 搜索</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-xs-4 col-sm-4" id="uploadButton">
+                    {% if not user %}
+                        <div class="security" data-toggle="modal" data-target="#loginModal">
+                            <input type="button" class="pic">
+                        </div>
+                    {% else %}
+                        <div class="security">
+                            <form id="picForm" action="http://up.qiniu.com/" method="post" enctype="multipart/form-data" Content-Type="UTF-8">
+                                <input class="pic" id="uploader" type="file" name="file" accept="image/*">
+                            </form>
+                            <div id="loadingPic" data-toggle="modal" data-target="#loadingModal"></div>
+                        </div>
+                    {% end %}
+                </div>
+            </div>

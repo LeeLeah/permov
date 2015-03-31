@@ -1,0 +1,12 @@
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>温馨提示 <small class="text-success">Tips !</small></h3>
+		</div>
+		<div class="panel-body bg-warning">
+			<p class="text-success">1、注册喷沫屋会员即可上传分享任何你喜欢的图片，并与众多喷沫屋会员交流图片观点。喷沫屋会员可以在图片的任意位置添加关键词，VIP会员还可以在图片的任意位置添加购物按钮。</p>
+			<p class="text-warning">2、在图片详情页面点击图片即可隐藏关键词和购物车图标。</p>
+			<p class="text-info">3、图标隐藏后，点击图中物体位置即可在该位置添加购买链接或者关键词。</p>
+			<p class="text-danger">4、在QQ空间或微信朋友圈分享喷沫屋给好友即可免费获得一季度VIP服务。每成功邀请一位好友注册喷沫屋，即可免费获得一个月VIP服务（15元/每月），邀请两位免费获得两个月VIP，依此类推。 {% if user %}我的推广链接：<a href="http://www.permov.com/?ref={{ user }}">http://www.permov.com/?ref={{ user }}</a>{% else %}<a href="javascript:;" data-toggle="modal" data-target="#loginModal">登录获取推广链接</a>{% end %}</p>
+			<p class="pull-right"><a class="btn btn-primary" href="#" data-toggle="modal" data-target="#suggestModal">给喷沫屋提建议</a></p>
+		</div>
+	</div>

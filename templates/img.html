@@ -1,0 +1,191 @@
+{% extends main.html %}
+{% block title %}{{ imgInfo["description"][:20] }} - {{ imgInfo["user"] }} - {{ imgInfo["cate"] }}{% end %}
+{% block description %}{{ imgInfo["description"][:80] }}{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+			<li><a href="/">首页</a></li>
+			<li><a href="/{{ imgInfo['cate_url'] }}/">{{ imgInfo['cate'] }}</a></li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-default">
+	  		<div class="panel-heading"><h3>{% if imgInfo["description"] %}{{ imgInfo["description"][:20] }}{% else %}图片详情待完善{% end %}</h3>
+	  		</div>
+	  		<div class="panel-body img-padding">
+	  			<div class="row img-row">
+	  				<div class="col-md-12 img-col" id="imgContent">
+	  					<div class="thumbnail thumbnail-pading">
+							<a href="javascript:void(0)">
+								<img id="imgArea" src="{{ staticURL }}/{{ imgInfo["_id"] }}-pc.jpg" alt="" width="100%" data-toggle="modal" data-target="{% if not user %}#loginModal{% else %}#addLinkModal{% end %}" title="点击图中商品即可添加购买链接或关键词！"/>
+							</a>
+							<div class="tagsArea" id="tagsArea">
+								{% for link in imgLink %}
+									<div class="tags"  style="top:{{ link['top'] }}%;left:{{ link['left'] }}%;">
+									{% if link["top"] > 50 %}
+										<a href="{{ link['url'] }}" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="top" title="{{ link['user'] }}：{{ link['description'] }}"><small class="big-icon"><span class="glyphicon glyphicon-shopping-cart shop-point"></span></small></a>
+									{% else %}
+										<a href="{{ link['url'] }}" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="{{ link['user'] }}：{{ link['description'] }}"><small class="big-icon"><span class="glyphicon glyphicon-shopping-cart shop-point"></span></small></a>
+									{% end %}
+									</div>
+								{% end %}
+								<div class="img-top" id="img-top">
+									<div class="row">
+										<div class="col-md-6 col-sm-7 col-xs-7">
+											<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
+											<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+											</script>
+										</div>
+										<div class="col-md-6 col-sm-5 col-xs-5">
+											<a class="btn btn-sm btn-primary pull-right" href="/nextimg/{{ imgInfo['_id'] }}/">下一张</a>
+										</div>
+									</div>
+								</div>
+								{% for tag in imgInfo["tags"] %}
+									<div class="tags"  style="top:{{ tag['top'] }}%;left:{{ tag['left'] }}%;">
+									{% if tag["top"] > 50 %}
+										<a href="/tag/{{ tag['keyword'] }}/" data-toggle="tooltip" data-placement="top" title="{{ tag['keyword'] }}"><small class="big-icon"><span class="glyphicon glyphicon-search keyword-point"></span></small></a>
+									{% else %}
+										<a href="/tag/{{ tag['keyword'] }}/" data-toggle="tooltip" data-placement="bottom" title="{{ tag['keyword'] }}"><small class="big-icon"><span class="glyphicon glyphicon-search keyword-point"></span></small></a>
+									{% end %}
+									</div>
+								{% end %}
+							</div>
+						</div>
+	  				</div>
+	  			</div>
+			</div>
+			<div class="panel-footer">
+				<h3 class="text-info">评论 <span class="glyphicon glyphicon-comment"></span></h3>
+				<form id="imgCommentForm" action="/comment/" method="post" accept-charset="UTF-8" Content-Type="UTF-8">
+					{% raw xsrf_form_html() %}
+					<input type="hidden" name="imgId" value="{{ imgInfo['_id'] }}">
+					<input type="hidden" name="toUser" value="{{ imgInfo['user']}}">
+					<div class="form-group">
+			            <textarea id="commentArea" rows="3" class="form-control" name="description" placeholder="我来说几句……" required="required"></textarea>
+			        </div>
+			        <div class="form-group">
+			        	{% if user %}
+							<button type="submit" class="btn btn-primary btn-lg" value="发布评论">发布评论</button>
+						{% else %}
+							<a href="javascript:;" data-toggle="modal" data-target="#loginModal">登录</a>后才可以发布评论。
+						{% end %}
+					</div>
+				</form>
+				{% for comment in comments %}
+					<div class="well" id="close-{{ comment['_id'] }}">
+						<p><a href="/user/{{ comment['user'] }}/" target="_blank">{{ comment["user"] }}</a>{% if comment["replyUser"] %} 回复 <a href="/user/{{ comment['replyUser'] }}/" target="_blank">{{ comment["replyUser"] }}</a>{% end %} <span class="text-muted">{{ str(comment["time"])[:16] }}</span></p>
+						<p>{{ comment["description"] }}</p>
+						<p><a href="javascript:;" title="删除" id="{{ comment['_id'] }}" onclick="delComment(this.id)">删除</a> <a href="javascript:;" onclick="replyComment(this.id)" id="reply-{{ comment['_id'] }}">回复</a><input type="hidden" id="user-reply-{{ comment['_id'] }}" name="replyUser" value="{{ comment['user'] }}">
+						</p>
+					</div>
+				{% end %}
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>图片详情 <small><a class="btn btn-danger pull-right" href="/{{ imgInfo['_id']}}/edit/" target="_blank" title="VIP会员可以修改所有图片，普通用户只能修改自己上传的图片。">修改</a></small></h3></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-5 col-xs-5 col-sm-5">
+						<div class="thumbnail thumbnail-pading">
+							<a href="/user/{{ imgInfo['user'] }}/" title="{{ imgInfo['user'] }}"><img src="{{ staticURL }}/{% if userInfo["avatar"] %}{{ userInfo['avatar'] }}{% else %}avatar{% end %}-avatar.jpg" alt="{{ imgInfo['user'] }}"/></a>
+							<div class="caption">
+								<p class="text-center"><a href="/user/{{ imgInfo['user'] }}/">{{ imgInfo['user'] }}</a></p>
+								<p>{% if not FollowCheck %}
+								<input type="button" class="btn btn-success btn-block" {% if not user %}data-toggle="modal" data-target="#loginModal"{% else %}onclick="FollowUser(this.id)"{% end %} id="{{ imgInfo['user'] }}" href="javascript:void(0)" value="关注">
+								{% else %}
+								<input type="button" class="btn btn-default btn-block" onclick="QuitFollow(this.id)" id="{{ imgInfo['user'] }}" href="javascript:void(0)" value="取消">
+								{% end %}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7 col-xs-7 col-sm-7">
+						<p class="word-break"><strong>照片描述：</strong>{{ imgInfo["description"] }}</p>
+						<p><strong>上传日期：</strong>{{ imgInfo["time"].date() }}</p>
+						<p><strong>浏览次数：</strong>{{ imgInfo["views"] }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% module GulipaJC() %}
+		{% module SideBarAd() %}
+	</div>
+</div>
+<div class="modal fade" id="addKeywordModal" tabindex="-3" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">
+                    	<div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
+					      	<button type="button" class="btn btn-danger">添加关键词</button>
+					      	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addLinkModal" data-dismiss="modal" aria-label="Close">添加商品链接</button>
+					    </div>
+					</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/addKeyword/" enctype="UTF-8" accept-charset="UTF-8" method="post" id="addKeyword">
+                        {% raw xsrf_form_html() %}
+                        <input type="hidden" class="form-control" name="imgId" value="{{ imgInfo['_id'] }}">
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">关键词：</div>
+                                <input type="text" class="form-control" name="keyword" required="required" placeholder="每次只能添加一个关键词">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <button class="btn btn-danger btn-block btn-lg" type="submit" value="确认提交">确认提交</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-block btn-lg" data-dismiss="modal" aria-label="Close">取消</a>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="modal fade" id="addLinkModal" tabindex="-4" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">
+                    	<div class="btn-group btn-group-lg" role="group" aria-label="Large button group">
+					      	<button type="button" class="btn btn-danger">添加商品链接</button>
+					      	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addKeywordModal" data-dismiss="modal" aria-label="Close">添加关键词</button>
+					    </div>
+					</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/addLink/" method="post" id="addLink">
+                        {% raw xsrf_form_html() %}
+                        <input type="hidden" name="imgId" value="{{ imgInfo['_id'] }}">
+                        <input type="hidden" name="toUser" value="{{ imgInfo['user'] }}">
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">商品链接：</div>
+                                <input type="url" class="form-control" name="url" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+			                <textarea rows="3" class="form-control" name="description" placeholder="商品描述，非必填"></textarea>
+			            </div>
+                        <div class="form-group form-group-lg">
+                            <button class="btn btn-danger btn-block btn-lg" type="submit" value="确认提交">确认提交</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-block btn-lg" data-dismiss="modal" aria-label="Close">取消</a>
+                </div>
+            </div>
+        </div>
+</div>
+{% end %}

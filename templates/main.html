@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% end %} - {{ siteName }} {{ siteDomain }}</title>
+    <meta name="keywords" content="{% block keywords %}{% end %}">
+    <meta name="description" content="{% block description %}{% end %}">
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://apps.bdimg.com/libs/bootstrap-glyphicons/1.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+      <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">导航</span>
+                        <span class="icon-bar">{% if messages %}<i class="badge badge-danger">{{ messages }}</i>{% end %}</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ siteURL }}">{{ siteName }}<small> 在喜欢的图片上自由地添加关键词和链接</small></a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">分类浏览<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/2/">美女</a></li>
+                                <li><a href="/32/">搞笑</a></li>
+                                <li><a href="/3/">旅游</a></li>
+                                <li><a href="/4/">美食</a></li>
+                                <li><a href="/8/">搭配</a></li>
+                                <li><a href="/15/">插画</a></li>
+                                <li><a href="/18/">动漫</a></li>
+                                <li><a href="/19/">游戏</a></li>
+                                <li><a href="/20/">极客</a></li>
+                                <li><a href="/22/">动物</a></li>
+                                <li><a href="/23/">儿童</a></li>
+                                <li><a href="/24/">摄影</a></li>
+                                <li><a href="/29/">教育</a></li>
+                                <li><a href="/33/">其它</a></li>
+                                <li><a href="/30/">数据图</a></li>
+                                <hr>
+                                <li><a href="/31/">体育运动</a></li>
+                                <li><a href="/25/">人文艺术</a></li>
+                                <li><a href="/28/">生活百科</a></li>
+                                <li><a href="/13/">男士风尚</a></li>
+                                <li><a href="/14/">工业设计</a></li>
+                                <li><a href="/16/">平面设计</a></li>
+                                <li><a href="/21/">建筑设计</a></li>
+                                <hr>
+                                <li><a href="/10/">潮品&单品</a></li>
+                                <li><a href="/11/">健身&减肥</a></li>
+                                <li><a href="/12/">汽车&摩托</a></li>
+                                <li><a href="/27/">名人&明星</a></li>
+                                <li><a href="/1/">家居&装饰</a></li>
+                                <li><a href="/5/">手工&布艺</a></li>
+                                <li><a href="/6/">婚纱&婚礼</a></li>
+                                <li><a href="/17/">UI交互设计</a></li>
+                                <hr>
+                                <li><a href="/7/">服饰&街拍&秀场</a></li>
+                                <li><a href="/26/">音乐&电影&图书</a></li>
+                                <li><a href="/9/">造型&美妆&纹身</a></li>
+                                <hr>
+                            </ul>
+                        </li>
+                        <li><a href="/vip/"><span class="text-success">VIP</span></a>
+                        </li>
+                        <li><a href="/message/">消息{% if messages %}<i class="badge badge-danger">{{ messages }}</i>{% end %}</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user %}
+                            <li><a href="/user/"><span class="label label-warning">用户中心</span></a></li>
+                            <li><a href="/logout/"><span class="label label-danger">退出</a></span></li>
+                        {% else %}
+                            <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="label label-primary">登录</span></a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#regModal"><span class="label label-danger">注册</span></a></li>
+                        {% end %}
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            {% block container %}{% end %}
+        </div>
+    </main>
+    <footer style="padding-top:50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="text-center">© 2015 <a href="{{ siteURL }}">喷沫屋</a> 粤ICP备14020213号-1 <a href="/rule/" target="_blank">用户须知</a></p>
+                    <p class="text-center">合作伙伴：<a href="http://permov.com" target="_blank">淘宝客</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="loginModal" tabindex="-2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">请登录</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method="post" role="search">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">账号</div>
+                                <input type="text" class="form-control" id="user" name="user" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">密码</div>
+                                <input type="password" class="form-control" id="password" name="password" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="登录">登录</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <p><a href="#" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#regModal" data-dismiss="modal" aria-label="Close">注册账号</a></p>
+                    <p class="text-center"><a href="javascript:void(0)" id="QQLogin"><img src="/static/images/QQLogin.png"></a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="regModal" tabindex="-3" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">用户注册</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/reg/" method="post">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">登录账号</div>
+                                <input type="text" class="form-control" id="user" name="user" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">邮箱地址</div>
+                                <input type="email" class="form-control" id="email" name="email" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">设置密码</div>
+                                <input type="password" class="form-control" id="password" name="password" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <button class="btn btn-danger btn-block btn-lg" type="submit" value="注册">注册</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#loginModal" data-dismiss="modal" aria-label="Close">已有账号</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="suggestModal" tabindex="-4" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">意见反馈</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/suggest/" method="post">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group">
+                            <textarea rows="6" class="form-control" name="description" placeholder="欢迎提出您在使用过程中遇到的问题或宝贵建议（400字以内），感谢您对喷沫屋的支持。" required="required"></textarea>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">联系邮箱</div>
+                                <input type="email" class="form-control" id="email" name="email" required="required" placeholder="请留下您的常用邮箱，以便我们及时回复您。">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <button class="btn btn-danger btn-block btn-lg" type="submit" value="提交反馈">提交反馈</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loadingModal" tabindex="-5" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    图片正在上传，请稍后……
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">
+                        <img src="http://static.permov.com/loading-loading.jpg" alt="图片正在上传，请稍后……">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="/static/js/imgupload.js"></script>
+    <script src="/static/js/jquery.pin.min.js"></script>
+    <script type="text/javascript">
+        $("#sidebar").pin({minWidth:940});
+        $("#img-top").pin({containerSelector: "#imgContent"});
+    </script>
+    {% block js %}{% end %}
+    <div class="hide">
+        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254544832'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1254544832' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+    </div>
+  </body>
+</html>

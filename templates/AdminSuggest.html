@@ -1,0 +1,36 @@
+{% extends main.html %}
+{% block title %}用户建议管理{% end %}
+{% block container %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>用户反馈与建议</h3></div>
+			<div class="panel-body">
+				{% for suggest in suggests %}
+				<p class="bg-warning text-danger" style="padding:15px 10px;">
+					{% if suggest["user"] %}
+					<a href="/user/{{ suggest['user'] }}/">{{ suggest["user"] }}</a> | {{ suggest["email"] }}：
+					{{ suggest["description"] }} <em class="text-muted">{{ suggest["time"].date() }}</em>
+					{% else %}
+					匿名用户 | {{ suggest["email"] }}：
+					{{ suggest["description"] }} <em class="text-muted">{{ suggest["time"].date() }}</em>
+					{% end %}
+				</p>
+				{% end %}
+			</div>
+			{% if pageNum > 1 %}
+				<div class="panel-footer text-center">
+					<nav>
+						<ul class="pagination">
+					    	<li><a href="/Admin/suggest/?page={% if page > 1 %}{{ page-1 }}{% else %}1{% end %}"><span aria-hidden="true">上一页</span><span class="sr-only">上一页</span></a></li>
+					    	<li><a href="/Admin/suggest/?page={% if page < pageNum %}{{ page + 1}}{% else %}{{ pageNum }}{% end %}"><span aria-hidden="true">下一页</span><span class="sr-only">下一页</span></a></li>
+					  	</ul>
+					</nav>
+					<p>当前第 <span class="text-danger">{{ page }}</span> 页，共 <span class="text-info">{{ pageNum }}</span> 页</p>
+				</div>
+			{% end %}
+		</div>
+	</div>
+	{% module AdminSideBar() %}
+</div>
+{% end %}

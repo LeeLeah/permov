@@ -1,0 +1,92 @@
+{% extends main.html %}
+{% block title %}提交图片信息 - {{ siteName }}{% end %}
+{% block container %}
+<div class="col-md-12">
+	<div class="alert alert-success text-center">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong>上传成功！</strong> 请继续完成图片信息并提交！
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading"><h3>完善图片信息</h3></div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="thumbnail">
+						<img src="{{ staticURL }}/{{ info['img'] }}-220.jpg">
+					</div>
+				</div>
+				<div class="col-md-10">
+					<form action="/upload/" method="post" accept-charset="UTF-8" Content-Type="UTF-8">
+				  		{% raw xsrf_form_html() %}
+				  			<input type="hidden" name="_id" value="{{ info['img'] }}">
+			                <div class="form-group form-group-lg">
+				  				<div class="input-group">
+					                <span class="input-group-addon">分类：</span>
+					                <select class="form-control" name="cate_url" required="required">
+					                	{% if info['cate'] %}
+					                		<option selected="selected" value="{{ info['cate_url'] }}">{{ info["cate"] }}</option>
+					                	{% end %}
+										<option value="1">家居+装饰</option>
+										<option value="2">美女</option>
+										<option value="3">旅游</option>
+										<option value="4">美食</option>
+										<option value="5">手工+布艺</option>
+										<option value="6">婚纱+婚礼</option>
+										<option value="7">服饰+街拍+秀场</option>
+										<option value="8">搭配</option>
+										<option value="9">造型+美妆+纹身</option>
+										<option value="10">潮品+单品</option>
+										<option value="11">健身+减肥</option>
+										<option value="12">汽车+摩托</option>
+										<option value="13">男士风尚</option>
+										<option value="14">工业设计</option>
+										<option value="15">插画</option>
+										<option value="16">平面设计</option>
+										<option value="17">UI交互设计</option>
+										<option value="18">动漫</option>
+										<option value="19">游戏</option>
+										<option value="20">极客</option>
+										<option value="21">建筑设计</option>
+										<option value="22">动物</option>
+										<option value="23">儿童</option>
+										<option value="24">摄影</option>
+										<option value="25">人文艺术</option>
+										<option value="26">音乐+电影+图书</option>
+										<option value="27">名人+明星</option>
+										<option value="28">生活百科</option>
+										<option value="29">教育</option>
+										<option value="30">数据图</option>
+										<option value="31">体育运动</option>
+										<option value="32">搞笑</option>
+										<option value="33">其它</option>
+									</select>
+			                	</div>
+			                </div>
+			                <div class="alert alert-warning text-center">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>为了能够被搜索到，请为图片添加关键词，每个关键词之间请用一个<strong>“+”</strong> 分开，最多可以添加10个标签！
+							</div>
+			                <div class="form-group form-group-lg">
+				  				<div class="input-group">
+					            	<span class="input-group-addon">关键词：</span>
+					                <input class="form-control" type="text" name="tags" placeholder="只有添加了关键词才能被搜索到，必填" required="required" autocomplete="off"/>
+			                	</div>
+			                </div>
+			                <div class="form-group">
+			                	<textarea rows="3" class="form-control" name="description" placeholder="图片描述，可以不填"></textarea>
+			            	</div>
+			                <div class="checkbox">
+							    <label>
+							      <input type="checkbox" name="avatar" value="N"> 把此图用作头像
+							    </label>
+							</div>
+			                <div class="form-group">
+								<button type="submit" class="btn btn-primary btn-lg">完成提交</button>
+								<a href="#" id="uploadButton" role="button" class="btn btn-danger btn-lg pull-right" onclick="uploadAction()">重新上传</a>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% end %}

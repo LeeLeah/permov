@@ -1,0 +1,101 @@
+{% extends main.html %}
+{% block title %}{{ pageuser }}上传的图片{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-default">
+	  		<div class="panel-heading" id="PanelHeader"><h3>{{ pageuser }} <small class="text-info">上传的图片</small></h3></div>
+		  	<div class="panel-body panel-pading-top">
+		  		<div class="row" id="waterfall">
+		  			{% if imgInfo %}
+					    {% for img in imgInfo %}
+							<div class="col-md-3 col-sm-4 col-xs-4">
+								<div class="thumbnail thumbnail-pading">
+									<a href="/img/{{ img['_id'] }}/" target="_blank">
+										<img src="{{ staticURL }}/{{ img['_id'] }}-220.jpg" alt="">
+									</a>
+								</div>
+							</div>
+						{% end %}
+					{% else %}
+						<p><h1 class="big-page">{{ pageuser }}还未上传图片……</h1></p>
+					{% end %}
+				</div>
+		  	</div>
+		  	{% if pageNum > 1 %}
+				<div class="panel-footer text-center">
+					<nav>
+						<ul class="pagination">
+					    	<li><a href="/user/{{ pageuser }}/?page={% if page > 1 %}{{ page-1 }}{% else %}1{% end %}"><span aria-hidden="true">上一页</span><span class="sr-only">上一页</span></a></li>
+					    	<li><a href="/user/{{ pageuser }}/?page={% if page < pageNum %}{{ page + 1}}{% else %}{{ pageNum }}{% end %}"><span aria-hidden="true">下一页</span><span class="sr-only">下一页</span></a></li>
+					  	</ul>
+					</nav>
+					<p>当前第 <span class="text-danger">{{ page }}</span> 页，共 <span class="text-info">{{ pageNum }}</span> 页</p>
+				</div>
+			{% end %}
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>用户信息</h3></div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-5 col-xs-5 col-sm-5">
+						<div class="thumbnail thumbnail-pading">
+							<img src="{{ staticURL }}/{% if PageUserInfo["avatar"] %}{{ PageUserInfo['avatar'] }}{% else %}avatar{% end %}-avatar.jpg" />
+						<div class="caption">
+						{% if not UserCheck %}
+							<input type="button" class="btn btn-success btn-block" id="{{ pageuser }}" {% if user %}onclick="FollowUser(this.id)"{% else %}data-toggle="modal" data-target="#loginModal"{% end %} value="关注" href="javascript:void(0)" />
+						{% else %}
+							<input type="button" class="btn btn-default btn-block" id="{{ pageuser }}" onclick="QuitFollow(this.id)" value="取消" href="javascript:void(0)" />
+						{% end %}
+						</div>
+						</div>
+					</div>
+					<div class="col-md-7 col-xs-7 col-sm-7">
+						<p><strong>用户名：</strong>{{ pageuser }}</p>
+						<p><strong>关注者：</strong>{{ FollowNum }}  <span class="text-primary">人</span></p>
+						<p><strong>图片数：</strong>{{ imgCount }}  <span class="text-info">张</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% module GulipaJC() %}
+		{% module SideBarAd() %}
+	</div>
+</div>
+{% end %}
+{% block js %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(window).on("load",function(){
+          imgLocation();
+        });
+      });
+      function imgLocation(){
+        var box = $(".col-md-3");
+        var boxWidth = box.eq(0).outerWidth();
+        var windowWidth = $("#waterfall").outerWidth();
+        num = Math.floor(windowWidth/boxWidth);
+        var boxArr = [];
+        box.each(function(index,value){
+          var boxHeight = box.eq(index).height();
+          if (index<num){
+            boxArr[index] = boxHeight;
+          }else{
+            var minBoxHeight = Math.min.apply(null,boxArr);
+            var minBoxIndex = $.inArray(minBoxHeight,boxArr);
+            $(value).css({
+              "position":"absolute",
+              "top":minBoxHeight + $("#PanelHeader").outerHeight() + "px",
+              "width":boxWidth,
+              "left":box.eq(minBoxIndex).position().left +"px",
+            });
+            boxArr[minBoxIndex] += box.eq(index).outerHeight();
+          }
+        });
+        $("#waterfall").css({"height":Math.max.apply(null,boxArr)})
+      }
+    </script>
+{% end %}

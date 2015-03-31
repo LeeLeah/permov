@@ -1,0 +1,52 @@
+{% extends main.html %}
+{% block title %}修改图片信息{% end %}
+{% block container %}
+<div class="col-md-12">
+	<div class="panel panel-primary">
+		<div class="panel-heading"><h3>编辑图片信息</h3></div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="thumbnail">
+						<img src="http://7u2mtc.com1.z0.glb.clouddn.com/{{ info['_id'] }}-220.jpg">
+					</div>
+				</div>
+				<div class="col-md-10">
+					<form action="/{{ info['_id'] }}/edit/" method="post" accept-charset="UTF-8" Content-Type="UTF-8">
+				  		{% raw xsrf_form_html() %}
+				  		<input type="hidden" name="user" value="{{ user }}">
+			                <div class="form-group form-group-lg">
+				  				<div class="input-group">
+					                <span class="input-group-addon">画册：</span>
+					                <select class="form-control" name="cate_url" required="required" id="imgCategory">
+					                	{% if info['cate'] %}
+					                		{% if info["cate_url"] == "33" %}
+					                		<option value="{{ cate_url }}">{{ cate }}</option>
+					                		{% else %}
+					                		<option selected="selected" value="{{ info['cate_url'] }}">{{ info["cate"] }}</option>
+					                		{% end %}
+					                	{% end %}
+					                	{% for mycate in mycates %}
+											<option value="{{ mycate['url'] }}">{{ mycate["name"] }}</option>
+										{% end %}
+									</select>
+			                	</div>
+			                </div>
+			                <div class="form-group">
+			                	<textarea rows="3" class="form-control" name="description" placeholder="照片描述，非必填">{{ info["description"] }}</textarea>
+			            	</div>
+			            	<div class="checkbox">
+							    <label>
+							      <input type="checkbox" name="avatar" value="N"> 把此图用作头像
+							    </label>
+							</div>
+			                <div class="form-group">
+								<button type="submit" class="btn btn-primary btn-lg">完成提交</button>
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% end %}

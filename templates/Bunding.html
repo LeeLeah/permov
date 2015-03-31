@@ -1,0 +1,43 @@
+{% extends main.html %}
+{% block title %}QQ登录授权{% end %}
+{% block container %}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">QQ登录授权</h3>
+                </div>
+                <div class="modal-body">
+	                <div class="{% if color %}alert alert-success text-center{% else %}alert alert-danger text-center{% end %}">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>{{ action }}</strong> 
+					</div>
+                    <form action="/qq/" method="post">
+                        {% raw xsrf_form_html() %}
+                        <input type="hidden" name="QQOpenId" value="{{ QQOpenId }}">
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">账号</div>
+                                <input type="text" class="form-control" id="user" name="user" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                            <div class="input-group">
+                                <div class="input-group-addon">密码</div>
+                                <input type="password" class="form-control" id="password" name="password" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="绑定账号">绑定账号</button>
+                        </div>
+                    </form>
+                    <div class="alert alert-success text-center">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>绑定成功后，即可直接用QQ账号登录！</strong> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#regModal">注册账号</a>
+                </div>
+            </div>
+        </div>
+{% end %}

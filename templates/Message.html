@@ -1,0 +1,53 @@
+{% extends main.html %}
+{% block title %}消息中心{% end %}
+{% block container %}
+{% module HeaderArea() %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>我的消息<small><a class="btn btn-danger pull-right" href="javascript:;" {% if messages %}id="clearMessage"{% end %}>清空消息</a></small></h3></div>
+			<div class="panel-body">
+				{% if message %}
+					{% for mess in message %}
+					<p><em class="text-muted">{{ str(mess["time"])[:16] }}</em></p>
+					<p><a href="/user/{{ mess['fromUser'] }}/" target="_blank">{{ mess["fromUser"] }}</a>
+						{% if mess["type"] == 1 %}
+						<span class="text-success">关注了我。</span>
+						{% elif mess["type"] == 2 %}
+						<span class="text-danger">为我的图片贡献了一个关键词：</span><a href="/tag/{{ mess['keyword'] }}/">{{ mess["keyword"] }}</a>。<a class="btn btn-xs btn-primary" href="/img/{{ mess['imgId'] }}/" target="_blank">立即查看</a>
+						{% elif mess["type"] == 3 %}
+						<span class="text-warning">为我的图片贡献了一个购物车按钮：</span><a href="{{ mess['url'] }}" target="_blank">{{ mess["description"] }}</a>。<a class="btn btn-xs btn-warning" href="/img/{{ mess['imgId'] }}/" target="_blank">立即查看</a>
+						{% elif mess["type"] == 4 %}
+						<span class="text-info">评论我的图片：</span>{{ mess["description"] }}。<a class="btn btn-xs btn-info" href="/img/{{ mess['imgId'] }}/" target="_blank">立即查看</a>
+						{% elif mess["type"] == 5 %}
+						<span class="text-info">回复了我的评论：</span>{{ mess["description"] }}。<a class="btn btn-xs btn-info" href="/img/{{ mess['imgId'] }}/" target="_blank">立即查看</a>
+						{% elif mess["type"] == 6 %}
+						 <span class="text-danger">修改了我的图片信息：</span>{{ mess["description"] }}。<a class="btn btn-xs btn-danger" href="/img/{{ mess['imgId'] }}/" target="_blank">立即查看</a>
+						{% end %}
+					</p>
+					<hr>
+					{% end %}
+				{% else %}
+				<p><h1 class="big-page">暂时还没有消息……</h1></p>
+				{% end %}
+			</div>
+			{% if pageNum > 1 %}
+					<div class="panel-footer text-center">
+						<nav>
+							<ul class="pagination">
+						    	<li><a href="/message/?page={% if page > 1 %}{{ page-1 }}{% else %}1{% end %}"><span aria-hidden="true">上一页</span><span class="sr-only">上一页</span></a></li>
+						    	<li><a href="/message/?page={% if page < pageNum %}{{ page + 1}}{% else %}{{ pageNum }}{% end %}"><span aria-hidden="true">下一页</span><span class="sr-only">下一页</span></a></li>
+						  	</ul>
+						</nav>
+						<p>当前第 <span class="text-danger">{{ page }}</span> 页，共 <span class="text-info">{{ pageNum }}</span> 页</p>
+					</div>
+			{% end %}
+		</div>
+	</div>
+	<div class="col-md-4">
+		{% module GulipaJC() %}
+		{% module SideBarAd() %}
+	</div>
+</div>
+</div>
+{% end %}
