@@ -20,7 +20,7 @@ route = [
 	(r"/delComment/?",User.delComment),
 	(r"/FollowUser/?",User.FollowUserAction),
 	(r"/FollowCate/?",User.FollowCate),
-	(r"/img/(.+)/?",Img.img),
+	(r"/img/([0-9a-zA-Z\_\-]+)/?",Img.img),
 	(r"/nextimg/(.+)/?",Img.next),
 	(r"/message/?",SomePage.Message),
 	(r"/myAlbum/?",VIP.myAlbum),
@@ -40,5 +40,5 @@ route = [
 	(r"/user/?",User.home),
 	(r"/user/(.+)/?",User.UserPage),
 	(r"/vip/?",SomePage.VIP),
-	(r"/(.+)/edit/?",User.editImg),
+	(r"/([0-9a-zA-Z\_\-]+)/edit/?",User.editImg),
 	]
