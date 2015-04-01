@@ -232,7 +232,7 @@ class Reg(BaseHandler):
 			self.redirect("/")
 		device = self.get_device()
 
-		self.render("reg.html",siteName=self.settings["siteName"]
+		self.render("reg.html",siteName=self.settings["siteName"],
 			siteURL=self.settings["siteURL"],device=device,user=user,
 			siteDomain=self.settings["siteDomain"],action=None,messages=0)
 
