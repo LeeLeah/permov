@@ -17,6 +17,7 @@ class delComment(BaseHandler):
 class QQ(BaseHandler):
 
 	@gen.coroutine
+	@addslash
 	def get(self):
 		db = self.settings["db"]
 		code = self.get_argument("code")
@@ -64,6 +65,7 @@ class QQ(BaseHandler):
 
 class UserPage(BaseHandler):
 	@gen.coroutine
+	@addslash
 	def get(self,pageuser):
 		userAgent = self.request.headers["User-Agent"]
 		device = 0 if "Mobile" in userAgent or "Android" in userAgent else 1	
@@ -108,6 +110,7 @@ class UserPage(BaseHandler):
 class home(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		db = self.settings["db"]
 		user = self.current_user
@@ -147,6 +150,7 @@ class home(BaseHandler):
 class editImg(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self,imgId):
 		db = self.settings["db"]
 		user = self.current_user
@@ -221,15 +225,17 @@ class editImg(BaseHandler):
 			raise tornado.web.HTTPError(404)
 
 class Reg(BaseHandler):
+	@addslash
 	def get(self):
 		user = self.current_user
 		if user :
 			self.redirect("/")
 		device = self.get_device()
 
-		self.render("reg.html",siteName=self.settings["siteName"],
+		self.render("reg.html",siteName=self.settings["siteName"]
 			siteURL=self.settings["siteURL"],device=device,user=user,
 			siteDomain=self.settings["siteDomain"],action=None,messages=0)
+
 	@gen.coroutine
 	def post(self):
 		db = self.settings["db"]
@@ -269,6 +275,7 @@ class Reg(BaseHandler):
 			siteDomain=self.settings["siteDomain"],action=action,messages=0)
 
 class login(BaseHandler):
+	@addslash
 	def get(self):
 		user = self.current_user
 		if user :
@@ -356,7 +363,7 @@ class ClearMessage(BaseHandler):
 		yield db.messages.remove({"user":user},multi=True)
 
 class logout(BaseHandler):
-	
+	@addslash
 	def get(self):
 		self.clear_cookie("user")
 		self.redirect("/")

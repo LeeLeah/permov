@@ -65,6 +65,7 @@ class addLink(BaseHandler):
 
 class next(BaseHandler):
 	@gen.coroutine
+	@addslash
 	def get(self,img_url):
 		db = self.settings["db"]
 		device = self.get_device()
@@ -124,6 +125,7 @@ class comment(BaseHandler):
 class img(BaseHandler):
 
 	@gen.coroutine
+	@addslash
 	def get(self,img_url):
 		db = self.settings["db"]
 		user = self.current_user
@@ -157,6 +159,7 @@ class img(BaseHandler):
 class category(BaseHandler):
 
 	@gen.coroutine
+	@addslash
 	def get(self,cate_url):
 		db = self.settings["db"]
 		device = self.get_device()

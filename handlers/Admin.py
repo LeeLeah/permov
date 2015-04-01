@@ -5,6 +5,7 @@ from . import *
 class AddVipTime(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		if user == "***Admin_User***" or user == "**Administrator_User**":
@@ -40,6 +41,7 @@ class AddVipTime(BaseHandler):
 class AdminSuggest(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		if user == "***Admin_User***" or user == "**Administrator_User**":

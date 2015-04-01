@@ -5,6 +5,7 @@ from . import *
 class editMyAlbum(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self,cateId):
 		user = self.current_user
 		db = self.settings["db"]
@@ -46,6 +47,7 @@ class editMyAlbum(BaseHandler):
 class myAlbum(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		db = self.settings["db"]

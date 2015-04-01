@@ -19,6 +19,7 @@ class search(BaseHandler):
 class tags(BaseHandler):
 
 	@gen.coroutine
+	@addslash
 	def get(self,keyword):
 		try:
 			page = int(self.get_argument("page"))

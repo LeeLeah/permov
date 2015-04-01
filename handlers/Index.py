@@ -8,6 +8,7 @@ from qiniu import Auth
 class album(BaseHandler):
 
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		db = self.settings["db"]
@@ -40,6 +41,7 @@ class album(BaseHandler):
 
 class index(BaseHandler):
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		db = self.settings["db"]
@@ -68,6 +70,7 @@ class index(BaseHandler):
 class qiniu(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		ret = json.loads(base64.decodestring(self.get_argument("upload_ret")))
 		db = self.settings["db"]
@@ -92,6 +95,7 @@ class qiniu(BaseHandler):
 
 
 class upjson(BaseHandler):
+	@addslash
 	def get(self):
 		q = Auth("**Qiniu_Token**", 
 				"**Qiniu_Secret**")

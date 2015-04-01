@@ -4,6 +4,7 @@ from . import *
 
 class VIP(BaseHandler):
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		db = self.settings["db"]
@@ -23,6 +24,7 @@ class VIP(BaseHandler):
 class Message(BaseHandler):
 	@authenticated
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		device = self.get_device()
@@ -64,6 +66,7 @@ class Suggest(BaseHandler):
 
 class Rule(BaseHandler):
 	@gen.coroutine
+	@addslash
 	def get(self):
 		user = self.current_user
 		db = self.settings["db"]
